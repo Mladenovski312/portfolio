@@ -12,7 +12,7 @@ export const site = {
   timezone: "UTC+1",
   responseWindow: "8–12 hours",
   workingHours: "EU hours",
-  email: "filip@filipmladenovski.com",
+  email: "hello@filipmladenovski.com",
   booking: "https://cal.eu/filip-mladenovski/30min",
   links: {
     github: "https://github.com/Mladenovski312",
