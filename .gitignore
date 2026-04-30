@@ -42,3 +42,10 @@ next-env.d.ts
 
 # lighthouse reports (regenerable)
 .lighthouse-*.json
+.audit/
+
+# claude code local state
+.claude/
+
+# internal status notes (not for public repo)
+PROJECT_STATUS.md

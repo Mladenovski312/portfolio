@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Clock } from "lucide-react";
 import type { WorkItem } from "@/lib/work";
@@ -14,9 +15,7 @@ export function ProjectCard({
 }) {
   const href = item.hasCaseStudy
     ? `/work/${item.slug}`
-    : item.url
-      ? item.url
-      : null;
+    : item.url ?? item.repoUrl ?? null;
   const isExternal = !!href && href.startsWith("http");
   const isInteractive = !!href;
 
@@ -63,8 +62,9 @@ function LargeBody({ item }: { item: WorkItem }) {
   return (
     <div className="grid md:grid-cols-[1.1fr_1fr]">
       <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden border-b border-border-subtle bg-surface-2 md:aspect-auto md:border-b-0 md:border-r">
-        <ProjectGlyph slug={item.slug} />
+        <ProjectVisual item={item} />
         <HoverHighlight />
+        <ShineSweep />
       </div>
       <div className="flex flex-col justify-between gap-6 p-6 md:p-8">
         <div className="space-y-4">
@@ -90,7 +90,7 @@ function LargeBody({ item }: { item: WorkItem }) {
             </dl>
           )}
           <StackChips stack={item.stack} max={6} />
-          <CardFooter item={item} label="Read case study" />
+          <CardFooter label="Read case study" />
         </div>
       </div>
     </div>
@@ -101,8 +101,9 @@ function MediumBody({ item }: { item: WorkItem }) {
   return (
     <div className="flex flex-col">
       <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden border-b border-border-subtle bg-surface-2">
-        <ProjectGlyph slug={item.slug} />
+        <ProjectVisual item={item} />
         <HoverHighlight />
+        <ShineSweep />
       </div>
       <div className="flex flex-1 flex-col justify-between gap-5 p-6">
         <div className="space-y-3">
@@ -117,8 +118,15 @@ function MediumBody({ item }: { item: WorkItem }) {
         <div className="space-y-4">
           <StackChips stack={item.stack} max={4} />
           <CardFooter
-            item={item}
-            label={item.hasCaseStudy ? "Read case study" : "View live"}
+            label={
+              item.hasCaseStudy
+                ? "Read case study"
+                : item.url
+                  ? "View live"
+                  : item.repoUrl
+                    ? "View on GitHub"
+                    : ""
+            }
           />
         </div>
       </div>
@@ -198,7 +206,7 @@ function StackChips({ stack, max }: { stack: string[]; max: number }) {
   );
 }
 
-function CardFooter({ item, label }: { item: WorkItem; label: string }) {
+function CardFooter({ label }: { label: string }) {
   return (
     <div className="flex items-center justify-between text-sm">
       <span className="text-text-muted transition-colors group-hover:text-accent">
@@ -218,6 +226,42 @@ function HoverHighlight() {
   );
 }
 
+function ShineSweep() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 overflow-hidden motion-reduce:hidden"
+    >
+      <div
+        className="absolute inset-y-0 -left-1/2 w-1/2 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-accent/10 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[350%]"
+      />
+    </div>
+  );
+}
+
+function ProjectVisual({ item }: { item: WorkItem }) {
+  if (item.status === "in-progress") {
+    return (
+      <div className="bg-grid absolute inset-0">
+        <GlyphStealth />
+      </div>
+    );
+  }
+  if (item.cover) {
+    return (
+      <Image
+        src={item.cover.src}
+        alt={item.cover.alt}
+        width={item.cover.width}
+        height={item.cover.height}
+        sizes="(min-width: 1152px) 600px, (min-width: 768px) 50vw, 100vw"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
+      />
+    );
+  }
+  return <ProjectGlyph slug={item.slug} />;
+}
+
 function ProjectGlyph({ slug }: { slug: string }) {
   const glyphs: Record<string, React.ReactNode> = {
     jumbo: <GlyphGrid color="#5EEAD4" />,
@@ -226,11 +270,19 @@ function ProjectGlyph({ slug }: { slug: string }) {
     pickaxe: <GlyphWave color="#FBBF24" />,
     allphins: <GlyphCircles color="#5EEAD4" />,
     "cfmoto-store": <GlyphStealth />,
+    "powerbi-trip-activity": <GlyphBars color="#5EEAD4" />,
+    "outlearn-engagement": <GlyphWave color="#5EEAD4" />,
+    "sql-dw-claims": <GlyphNodes color="#34D399" />,
+    "tableau-adventureworks": <GlyphCircles color="#34D399" />,
     quanto: <GlyphDiag color="#5EEAD4" />,
     knowly: <GlyphDiag color="#34D399" />,
     moveplnr: <GlyphDiag color="#FBBF24" />,
   };
-  return <div className="bg-grid absolute inset-0">{glyphs[slug] ?? null}</div>;
+  return (
+    <div className="bg-grid absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:group-hover:scale-100">
+      {glyphs[slug] ?? null}
+    </div>
+  );
 }
 
 function GlyphGrid({ color }: { color: string }) {

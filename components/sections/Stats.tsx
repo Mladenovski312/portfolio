@@ -51,10 +51,13 @@ export function Stats() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
     const onChange = () => setReducedMotion(mq.matches);
+    const id = window.setTimeout(onChange, 0);
     mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    return () => {
+      window.clearTimeout(id);
+      mq.removeEventListener("change", onChange);
+    };
   }, []);
 
   useEffect(() => {

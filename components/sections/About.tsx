@@ -12,7 +12,7 @@ export function About() {
           <div className="space-y-6">
             <SectionLabel number="04">About</SectionLabel>
             <h2 className="font-display text-4xl font-semibold tracking-tight text-text md:text-5xl">
-              Engineer's mindset, builder's output.
+              Engineer&apos;s mindset, builder&apos;s output.
             </h2>
           </div>
 
@@ -21,7 +21,7 @@ export function About() {
               I come from an engineering background, MSc-level. Systems, measurements, reproducibility. That mindset runs through everything I ship, whether it is a reinsurance analytics CMS or a POS that has to clear a transaction in under 300ms.
             </p>
             <p>
-              The last year I have gone deep on AI-assisted development, agent building, and cloud data pipelines. The work is moving faster than agencies and bigger teams can keep up with. Individual engineers who own the whole stack and use AI as a craft multiplier are, quietly, in a very good spot.
+              Working with LLMs since 2022. AI-assisted development since the tools were good enough to ship production code with. My role is the architecture and the oversight; Claude Code and Codex handle the execution. That split is what makes the timelines and cost structure work, and it is why an individual operator can now outdeliver a mid-size agency on the same scope.
             </p>
             <p>
               Currently shipping a full store platform for the regional CF Moto distributor, and contributing as a developer on the Macedonian government E-Invoice integration, testing the API and reporting fixes back upstream on behalf of an accounting office.
@@ -37,8 +37,8 @@ export function About() {
               <Fact label="Timezone">UTC+1</Fact>
               <Fact label="Focus">Full-stack · AI · Data</Fact>
               <Fact label="Languages">English, Macedonian</Fact>
-              <Fact label="Rate">From $35/hr</Fact>
               <Fact label="Availability">Q2 2026</Fact>
+              <Fact label="Engagements">Hourly or fixed-scope</Fact>
             </dl>
           </div>
         </div>

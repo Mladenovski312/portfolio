@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -9,7 +10,6 @@ import { Container } from "@/components/ui/Container";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { Snippet } from "@/components/ui/Snippet";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -46,7 +46,7 @@ export default async function CaseStudyPage(
     <>
       <Nav />
 
-      <main className="pb-32">
+      <main className="pb-20">
         {/* Hero */}
         <section className="relative overflow-hidden border-b border-border-subtle/60 pt-16 md:pt-24">
           <div
@@ -56,9 +56,12 @@ export default async function CaseStudyPage(
           <Container className="relative">
             <Link
               href="/#work"
-              className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-text-subtle transition-colors hover:text-text"
+              className="group mb-10 inline-flex items-center gap-2 rounded-lg border border-border bg-surface/60 px-4 py-2 text-[13px] font-medium text-text-muted transition-[border-color,background-color,color] duration-200 hover:border-accent-border hover:bg-surface hover:text-text"
             >
-              <ArrowLeft size={12} />
+              <ArrowLeft
+                size={14}
+                className="transition-transform duration-200 group-hover:-translate-x-0.5"
+              />
               Back to work
             </Link>
 
@@ -71,7 +74,7 @@ export default async function CaseStudyPage(
                 <span>{item.client}</span>
               </div>
 
-              <h1 className="max-w-4xl text-balance font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-text md:text-6xl lg:text-7xl">
+              <h1 className="max-w-4xl text-balance font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-text md:text-5xl lg:text-6xl">
                 {item.name}
               </h1>
 
@@ -85,11 +88,18 @@ export default async function CaseStudyPage(
                 ))}
               </div>
 
-              {item.url && (
-                <div className="pt-4">
-                  <Button href={item.url} variant="secondary" icon external>
-                    Visit live site
-                  </Button>
+              {(item.url || item.repoUrl) && (
+                <div className="flex flex-wrap gap-3 pt-4">
+                  {item.url && (
+                    <Button href={item.url} variant="secondary" icon external>
+                      Visit live site
+                    </Button>
+                  )}
+                  {item.repoUrl && (
+                    <Button href={item.repoUrl} variant="secondary" icon external>
+                      View source
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
@@ -100,8 +110,45 @@ export default async function CaseStudyPage(
               <Fact label="Timeline">{study.timeline}</Fact>
               <Fact label="Role">{study.role}</Fact>
             </dl>
+
+            {item.metrics && (
+              <dl className="grid gap-4 border-t border-border-subtle py-8 md:grid-cols-3">
+                {item.metrics.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-xl border border-border bg-surface p-5"
+                  >
+                    <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-text-subtle">
+                      {metric.label}
+                    </dt>
+                    <dd className="mt-2 font-display text-xl font-semibold tracking-tight text-text">
+                      {metric.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </Container>
         </section>
+
+        {/* Cover */}
+        {study.cover && (
+          <section className="border-b border-border-subtle/60 bg-surface-2/40 py-12 md:py-16">
+            <Container>
+              <figure className="overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_24px_60px_-30px_rgba(94,234,212,0.18)]">
+                <Image
+                  src={study.cover.src}
+                  alt={study.cover.alt}
+                  width={study.cover.width}
+                  height={study.cover.height}
+                  priority
+                  sizes="(min-width: 1152px) 1100px, (min-width: 768px) 90vw, 100vw"
+                  className="h-auto w-full"
+                />
+              </figure>
+            </Container>
+          </section>
+        )}
 
         {/* Body */}
         <section className="py-20 md:py-28">
@@ -150,12 +197,12 @@ export default async function CaseStudyPage(
         {/* CTA */}
         <section className="py-20">
           <Container>
-            <div className="rounded-3xl border border-border bg-surface p-10 text-center md:p-16">
+            <div className="rounded-2xl border border-border bg-surface p-7 text-center sm:p-10 md:p-16">
               <h2 className="mx-auto max-w-2xl font-display text-3xl font-semibold tracking-tight text-text md:text-5xl text-balance">
                 Have a build like this in mind?
               </h2>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button href="/#contact" variant="primary" icon>
+                <Button href="/contact" variant="primary">
                   Book a call
                 </Button>
                 <Button href="/#work" variant="secondary">
@@ -235,15 +282,6 @@ function BlockRenderer({ block }: { block: import("@/lib/case-studies").Block })
       </div>
     );
   }
-  if (block.kind === "snippet") {
-    return (
-      <Snippet
-        code={block.code}
-        language={block.language}
-        filename={block.filename}
-      />
-    );
-  }
   if (block.kind === "architecture") {
     return (
       <div className="grid gap-3 rounded-xl border border-border bg-surface p-6 md:grid-cols-2">
@@ -260,6 +298,27 @@ function BlockRenderer({ block }: { block: import("@/lib/case-studies").Block })
           </div>
         ))}
       </div>
+    );
+  }
+  if (block.kind === "image") {
+    return (
+      <figure className="space-y-3">
+        <div className="overflow-hidden rounded-xl border border-border bg-surface">
+          <Image
+            src={block.src}
+            alt={block.alt}
+            width={block.width}
+            height={block.height}
+            sizes="(min-width: 768px) 720px, 100vw"
+            className="h-auto w-full"
+          />
+        </div>
+        {block.caption && (
+          <figcaption className="text-center font-mono text-[12px] uppercase tracking-[0.14em] text-text-subtle">
+            {block.caption}
+          </figcaption>
+        )}
+      </figure>
     );
   }
   return null;

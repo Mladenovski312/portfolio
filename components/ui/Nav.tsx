@@ -31,13 +31,11 @@ export function Nav() {
           >
             GitHub
           </a>
-          <Button
-            href="#contact"
-            variant="primary"
-            className="hidden h-9 px-4 text-xs md:inline-flex"
-          >
-            Book a call
-          </Button>
+          <div className="hidden md:block">
+            <Button href="/contact" variant="primary" className="h-9 px-4 text-xs">
+              Book a call
+            </Button>
+          </div>
           <MobileNav />
         </div>
       </div>

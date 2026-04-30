@@ -52,25 +52,29 @@ export default function LabPage() {
               />
               <LabCard
                 status="coming-soon"
-                title="Agents that did not make it to production"
-                body="Three agent builds that failed to earn their keep, and what the failure modes taught me about when to not use an agent."
-                tags={["AI Agents", "Retro"]}
+                title="The AI agent decision playbook"
+                body="When agents earn their keep, when a script does the job better, and the questions I ask before building one. Patterns from production work, not theory."
+                tags={["AI Agents", "Decision-making"]}
               />
               <LabCard
-                status="coming-soon"
-                title="The Gemini product scanner"
-                body="How the Jumbo product scanner actually works, the prompt design, the fallback logic, and what I would change if I rebuilt it."
-                tags={["Gemini", "Vision"]}
+                status="live"
+                href="/lab/jumbo-scanner"
+                title="Inside the Jumbo Gemini scanner"
+                body="Production deep-dive on a shipped component: prompt design, confidence threshold, fallback to manual entry, and how the scanner sits inside the POS flow without blocking checkout."
+                tags={["Gemini", "Vision", "Production"]}
               />
             </div>
 
             <div className="mt-16 rounded-2xl border border-border bg-surface p-8 text-center md:p-12">
               <p className="mx-auto max-w-xl font-display text-2xl font-medium tracking-tight text-text md:text-3xl text-balance">
-                First write-up lands soon. Until then, the work speaks for itself.
+                Two write-ups live, more in the pipeline. Start with the production AI vision deep-dive or the self-hosted agent rig.
               </p>
-              <div className="mt-6 flex justify-center">
-                <Button href="/#work" variant="secondary">
-                  See the work
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <Button href="/lab/jumbo-scanner" variant="primary">
+                  Read the scanner
+                </Button>
+                <Button href="/lab/nexus" variant="secondary">
+                  Read NEXUS
                 </Button>
               </div>
             </div>
@@ -96,8 +100,10 @@ function LabCard({
   href?: string;
 }) {
   const baseClasses =
-    "group relative block rounded-2xl border border-border bg-surface p-7 transition-colors";
-  const interactiveClasses = href ? " hover:border-accent-border" : "";
+    "group relative block rounded-2xl border border-border bg-surface p-7 transition-[border-color,background-color,transform] duration-300";
+  const interactiveClasses = href
+    ? " hover:-translate-y-0.5 hover:border-accent-border hover:bg-surface-2 motion-reduce:hover:translate-y-0"
+    : "";
 
   const body$ = (
     <>

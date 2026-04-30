@@ -31,7 +31,7 @@ export function Button({
   className,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center gap-2 h-11 px-5 rounded-full text-sm font-medium transition-[background-color,border-color,color,box-shadow] duration-200 cursor-pointer whitespace-nowrap";
+    "inline-flex items-center gap-2 h-10 px-4 rounded-lg text-sm font-medium transition-[background-color,border-color,color,box-shadow] duration-200 cursor-pointer whitespace-nowrap";
 
   const isExternal = external ?? href.startsWith("http");
   const classes = cn(base, variants[variant], className);

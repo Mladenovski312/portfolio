@@ -35,12 +35,12 @@ export function Footer() {
             <FooterLink href={`mailto:${site.email}`} external>
               Email
             </FooterLink>
-            <FooterLink href="#contact">Book a call</FooterLink>
+            <FooterLink href="/contact">Book a call</FooterLink>
           </FooterCol>
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-border-subtle/60 pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-text-subtle md:flex-row md:items-center">
-          <p>© {new Date().getFullYear()} Filip Mladenovski. Built with Claude Code.</p>
+          <p>© {new Date().getFullYear()} Filip Mladenovski</p>
           <p>Kumanovo · {site.timezone}</p>
         </div>
       </div>

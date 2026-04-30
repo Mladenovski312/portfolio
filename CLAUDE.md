@@ -6,24 +6,25 @@ Filip Mladenovski. AI engineer & full-stack builder. Based Kumanovo, North Maced
 ## Voice rules — non-negotiable
 - **Banned words/phrases:** `academy`, `course`, `student`, `training`, `learned`, `passionate`, `cutting-edge`, `dedicated`, `transforming the way`, `in the era of`, `leveraging`, `harness`, `unlock`, `journey`, `ecosystem`, `solution` (as noun buzzword), `synergy`.
 - **No em dashes.** Use commas, periods, or parentheses.
-- **Prefer specific numbers** over adjectives. "310k samples", "330 hours", "$8k build".
+- **Prefer specific numbers** over adjectives. "310k samples", "330 hours", "1045 client hours". No pricing/rates in public copy.
 - **Senior engineer tone.** Not agency pitch, not LinkedIn hustler.
 - **Never expose project origins.** No "academy", "hackathon", "coursework".
 - **Webflow is a tool, not an identity.** Only inside PickAxe + Allphins case studies.
 
 ## Project facts to reuse accurately
-- **Jumbo / InterStar:** Next.js 16, React 19, Supabase (PostgreSQL + RLS), Google Gemini AI, Tailwind v4, Recharts, Sentry. Live at interstarjumbo.com.
+- **Jumbo / InterStar:** Next.js 16, React 19, Supabase (PostgreSQL + RLS), Google Gemini AI, Tailwind v4, Recharts, Sentry. Public storefront scaled back to a holding page pending client compliance updates; full system was built end to end and Filip is actively reworking it for relaunch. Status is `in-progress` (not `live`, not `delivered`). Do not surface a live link or "View live" CTA on the public portfolio.
 - **Johnson Matthey Lab Pipeline:** Python, AWS EC2 (Amazon Linux), Google Sheets/Drive APIs, gspread, cron jobs. 310k+ samples.
 - **Competitive Intelligence Automation:** Python, Google Vertex AI, async/await, tenacity retries, Notion API.
-- **PickAxe:** Webflow + custom JS mining calculator + GSAP + external API integrations. $8k / 330 hours.
+- **PickAxe:** Webflow + custom JS mining calculator + GSAP + external API integrations. 330 hours, ongoing maintenance. Do not surface pricing/rates publicly.
 - **Allphins:** Enterprise reinsurance analytics, multi-page Webflow CMS, custom animations.
 - **Upwork totals:** 22 jobs, $10k+, 1045 hours, 100% JSS, Top Rated.
+- **Career totals (all platforms + direct):** 50+ projects shipped, 1000+ client hours. Use these on the public site (Hero, Stats, site.ts). The Upwork-specific 22 number is for the Upwork mention only — never conflate the two.
 
 ## Design system (locked tokens)
 See `app/globals.css` `@theme`. Extend, don't add ad-hoc.
-- Fonts: Archivo (display) · Geist Sans (body) · Geist Mono (code/chips).
+- Fonts: Geist Sans (display + body, single family) · Geist Mono (code/chips). Display vs body distinction via weight (600+) and tracking (-0.025em). System-ui fallback chain for macOS-native feel.
 - Colors: `#0A192F` bg, `#E5EAFC` text, `#5EEAD4` accent. Dark navy v2.
-- Design log: v2 (2026-04-17) palette shifted from near-black/violet to navy/teal for continuity with filip-webdev.webflow.io. Logo uses the F monogram from FE/Portfolio.
+- Design log: v2 (2026-04-17) palette shifted from near-black/violet to navy/teal for continuity with filip-webdev.webflow.io. Logo uses the F monogram from FE/Portfolio. v2.1 (2026-04-29) typography unified to Geist single-family, dropped Archivo display face (too editorial-chunky for the senior-engineer thesis).
 - Type scale: 1.333 ratio. Display ≥ 56px desktop.
 - Max content width: `max-w-6xl` (1152px).
 - Section padding: 96–160px desktop, 64–96px mobile.
@@ -31,7 +32,6 @@ See `app/globals.css` `@theme`. Extend, don't add ad-hoc.
 ## Interaction rules
 - **Banned:** custom cursors, parallax, scroll-hijack, auto-animations, glassmorphism, neumorphism, brutalism.
 - **Three signature moves only:** horizontal marquee, project card hover, hero terminal anchor.
-- Respect `prefers-reduced-motion`.
 - Micro-interactions: 150–300ms, `transform`/`opacity` only.
 
 ## Next.js 16 specifics
@@ -56,14 +56,22 @@ See `app/globals.css` `@theme`. Extend, don't add ad-hoc.
 ```
 app/page.tsx                   home composition
 app/work/[slug]/page.tsx       case study layout (async params)
-app/lab/page.tsx               experiments (v1 stub OK)
-app/contact/page.tsx           contact
-components/sections/           Hero, ProofStrip, Work, Capabilities, Process, About, Testimonials, CTA, Footer
-components/ui/                 Button, Chip, Marquee, Card, Nav
+app/lab/page.tsx               experiments index
+app/lab/nexus/page.tsx         lab write-up (NEXUS rig)
+app/contact/page.tsx           dedicated contact page (SEO/AEO surface)
+app/sitemap.ts                 sitemap generator
+app/robots.ts                  robots.txt
+app/opengraph-image.tsx        dynamic OG image (1200x630)
+components/sections/           Hero, ProofStrip, Stats, Work, Capabilities, Process, About, Testimonials, CTA
+components/ui/                 Button, Chip, Marquee, Container, Footer, Logo, MobileNav, Nav, SectionLabel, Snippet
 components/interactions/       TerminalHero, ProjectCard
-content/work/*.mdx             case studies
-lib/work.ts                    MDX loader + ordering
-public/media/                  optimized screenshots
+components/seo/                PersonJsonLd (structured data)
+lib/case-studies.ts            case study content blocks (typed: h2, p, bullets, callout, architecture, snippet)
+lib/work.ts                    work index + helpers (heroItems, frontendCards, byCategory)
+lib/site.ts                    site identity, links, nav, contact info
+lib/testimonials.ts            testimonial content
+public/media/{slug}/           case study screenshots (cover.webp 1600x900, thumb.webp 800x600)
+public/brand/                  logo files
 ```
 
 ## Verification before "done"
@@ -71,4 +79,3 @@ public/media/                  optimized screenshots
 - Lighthouse ≥ 95 on home + one case study.
 - No banned words (grep).
 - Mobile parity 375 / 768 / 1440.
-- `prefers-reduced-motion` disables marquee + hovers.

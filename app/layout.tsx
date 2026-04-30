@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Archivo } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { PersonJsonLd } from "@/components/seo/PersonJsonLd";
+import { MotionRoot } from "@/components/ui/MotionRoot";
+import { site } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,22 +17,22 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "Filip Mladenovski · AI Engineer & Full-Stack Builder",
+  metadataBase: new URL(site.url),
+  title: {
+    default: "Filip Mladenovski · AI Engineer & Full-Stack Builder",
+    template: "%s · Filip Mladenovski",
+  },
   description:
-    "I build AI-powered web apps and automation systems. Full-stack products, AI agents, and data pipelines, shipped fast with Claude Code.",
+    "I build AI-powered web apps and automation systems. Full-stack products, AI agents, and data pipelines, shipped fast.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Filip Mladenovski · AI Engineer & Full-Stack Builder",
     description:
       "Full-stack products, AI agents, and data pipelines, shipped fast.",
     type: "website",
+    url: site.url,
+    siteName: site.name,
   },
   twitter: {
     card: "summary_large_image",
@@ -37,6 +40,7 @@ export const metadata: Metadata = {
     description:
       "Full-stack products, AI agents, and data pipelines, shipped fast.",
   },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -47,9 +51,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${archivo.variable} antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-bg text-text">{children}</body>
+      <body className="min-h-screen bg-bg text-text">
+        <PersonJsonLd />
+        <MotionRoot>{children}</MotionRoot>
+      </body>
     </html>
   );
 }

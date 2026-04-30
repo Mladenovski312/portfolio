@@ -6,12 +6,14 @@ import {
   heroItems,
   inProgress,
   frontendCards,
+  dataExtras,
   alsoShipped,
 } from "@/lib/work";
 
 export function Work() {
   const heroes = heroItems(work);
   const progress = inProgress(work);
+  const dataMore = dataExtras(work);
   const frontend = frontendCards(work);
   const [frontendLarge, ...frontendRest] = [
     frontend.find((f) => f.slug === "pickaxe")!,
@@ -60,6 +62,20 @@ export function Work() {
           </div>
         )}
 
+        {/* Data & analytics */}
+        {dataMore.length > 0 && (
+          <div className="mt-10">
+            <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-text-subtle">
+              Data & analytics
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {dataMore.map((item) => (
+                <ProjectCard key={item.slug} item={item} size="md" />
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Frontend category */}
         <div className="mt-20 space-y-8">
           <div className="flex items-end justify-between gap-4 border-t border-border-subtle pt-10">
@@ -86,7 +102,7 @@ export function Work() {
           </div>
 
           {/* Compact frontend cards */}
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 md:grid-cols-3">
             {frontendRest
               .filter((f) => f.slug !== "allphins")
               .map((item) => (

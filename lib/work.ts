@@ -21,6 +21,7 @@ export type WorkItem = {
   url?: string;
   repoUrl?: string;
   metrics?: { label: string; value: string }[];
+  cover?: { src: string; alt: string; width: number; height: number };
 };
 
 export const work: WorkItem[] = [
@@ -29,10 +30,10 @@ export const work: WorkItem[] = [
     slug: "jumbo",
     name: "Jumbo / InterStar",
     client: "InterStar Jumbo",
-    year: "2025",
-    outcome: "Full-stack e-commerce and ERP shipped as a team of one.",
+    year: "2026",
+    outcome: "Full e-commerce and ERP system. Storefront returning soon after a compliance update.",
     summary:
-      "Next.js 16 + Supabase storefront with AI product scanning, a real-time POS, inventory, and admin analytics. Production at interstarjumbo.com.",
+      "Next.js 16 + Supabase storefront with AI product scanning, a real-time POS, inventory, and admin analytics. Built end to end as a team of one. Public storefront temporarily scaled back; full system intact and being relaunched.",
     stack: [
       "Next.js 16",
       "React 19",
@@ -44,15 +45,21 @@ export const work: WorkItem[] = [
       "Sentry",
     ],
     category: "Full-stack",
-    status: "live",
+    status: "in-progress",
     featured: true,
     hasCaseStudy: true,
-    url: "https://interstarjumbo.com",
+    repoUrl: "https://github.com/Mladenovski312/smart-store-erp",
     metrics: [
       { label: "Surfaces", value: "Storefront · POS · Admin" },
       { label: "Security", value: "RLS + rate limiting" },
       { label: "AI", value: "Product scan & search" },
     ],
+    cover: {
+      src: "/media/jumbo/cover.png",
+      alt: "Inventory dashboard for InterStar Jumbo with product cards and live revenue totals.",
+      width: 1885,
+      height: 807,
+    },
   },
   {
     slug: "johnson-matthey",
@@ -75,6 +82,7 @@ export const work: WorkItem[] = [
     status: "delivered",
     featured: true,
     hasCaseStudy: true,
+    repoUrl: "https://github.com/Mladenovski312/johnson-matthey-pipeline",
     metrics: [
       { label: "Samples", value: "310k+" },
       { label: "Schedule", value: "Daily cron ingest" },
@@ -125,6 +133,68 @@ export const work: WorkItem[] = [
     hasCaseStudy: false,
   },
 
+  // ========== DATA & ANALYTICS ==========
+  {
+    slug: "powerbi-trip-activity",
+    name: "Trip Activity Dashboard",
+    client: "Trucking analytics",
+    year: "2026",
+    outcome: "PowerBI report over trucking trip and shipment data with driver, dispatcher, and state-level views.",
+    summary:
+      "Star-schema model with DAX measures for revenue, profit, and revenue-per-mile. Choropleth maps for pickup and delivery distribution by state, monthly and YoY trajectories, and a top-driver leaderboard.",
+    stack: ["PowerBI", "DAX", "Star Schema", "Geo Maps"],
+    category: "Data Engineering",
+    status: "delivered",
+    featured: false,
+    hasCaseStudy: false,
+    repoUrl: "https://github.com/Mladenovski312/powerbi-trip-activity",
+  },
+  {
+    slug: "outlearn-engagement",
+    name: "Outlearn Engagement Analytics",
+    client: "Outlearn (Nu High School)",
+    year: "2025",
+    outcome: "PowerBI engagement dashboard for an EdTech platform, delivered in a 48-hour window. Letter of recommendation from the client.",
+    summary:
+      "Star-schema model with a dedicated Calendar dimension. DAX measures for trailing 7-day, 30-day, and YoY engagement. Surfaces course performance, professor and subject impact, and where the platform loses users.",
+    stack: ["PowerBI", "DAX", "M Language", "Star Schema"],
+    category: "Data Engineering",
+    status: "delivered",
+    featured: false,
+    hasCaseStudy: false,
+    repoUrl: "https://github.com/Mladenovski312/outlearn-analytics-dashboard",
+  },
+  {
+    slug: "sql-dw-claims",
+    name: "Claims Operations Warehouse",
+    client: "Johnson Matthey",
+    year: "2025",
+    outcome: "SQL Server warehouse and stored-procedure toolkit for claims operations, with referential integrity and cascading deletes.",
+    summary:
+      "Normalized schema for the claims lifecycle plus four user-facing stored procedures: claim CRUD, detail CRUD, P/L tracking, and FK-safe cascading delete. Excel raw extracts loaded via T-SQL into a clean operational store.",
+    stack: ["SQL Server", "T-SQL", "Stored Procedures", "ETL"],
+    category: "Data Engineering",
+    status: "delivered",
+    featured: false,
+    hasCaseStudy: false,
+    repoUrl: "https://github.com/Mladenovski312/sql-dw-claims",
+  },
+  {
+    slug: "tableau-adventureworks",
+    name: "AdventureWorks Sales Story",
+    client: "Tableau craft demo",
+    year: "2025",
+    outcome: "Tableau Public story over the AdventureWorks 2022 Sales schema, exercising LOD expressions, parameters, and cross-dashboard actions.",
+    summary:
+      "Seven-view story covering sales-team activity, monthly revenue trends, Top/Bottom-N products via parameter, currency flow, payment methods, customer-to-salesperson hierarchy, and LOD-driven monthly activations.",
+    stack: ["Tableau", "LOD Expressions", "Parameters", "Calculated Fields"],
+    category: "Data Engineering",
+    status: "delivered",
+    featured: false,
+    hasCaseStudy: false,
+    repoUrl: "https://github.com/Mladenovski312/tableau-adventureworks-story",
+  },
+
   // ========== FRONTEND / CLIENT WEB ==========
   {
     slug: "pickaxe",
@@ -139,9 +209,11 @@ export const work: WorkItem[] = [
     status: "live",
     featured: true,
     hasCaseStudy: true,
+    url: "https://www.pickaxe.io",
     metrics: [
-      { label: "Engagement", value: "$8k / 330 hours" },
+      { label: "Engagement", value: "330 hours, ongoing" },
       { label: "Focus", value: "Custom JS + data viz" },
+      { label: "Model", value: "Client-owned CMS" },
     ],
   },
   {
@@ -157,6 +229,12 @@ export const work: WorkItem[] = [
     status: "live",
     featured: true,
     hasCaseStudy: true,
+    url: "https://www.allphins.com",
+    metrics: [
+      { label: "Audience", value: "Enterprise reinsurance" },
+      { label: "CMS", value: "Multi-page content model" },
+      { label: "Delivery", value: "5-star Upwork feedback" },
+    ],
   },
   {
     slug: "quanto",
@@ -171,6 +249,7 @@ export const work: WorkItem[] = [
     status: "live",
     featured: false,
     hasCaseStudy: false,
+    url: "https://www.quantolatam.com",
   },
   {
     slug: "knowly",
@@ -185,6 +264,7 @@ export const work: WorkItem[] = [
     status: "live",
     featured: false,
     hasCaseStudy: false,
+    url: "https://knowly.com",
   },
   {
     slug: "moveplnr",
@@ -199,6 +279,7 @@ export const work: WorkItem[] = [
     status: "live",
     featured: false,
     hasCaseStudy: false,
+    url: "https://moveplnr.com",
   },
 ];
 
@@ -240,10 +321,10 @@ export function featuredItems(items: WorkItem[]) {
 }
 
 export function heroItems(items: WorkItem[]) {
-  // 3 headline case studies for top of Work section
+  // Headline case studies for top of Work section
   return items.filter(
     (i) =>
-      ["jumbo", "johnson-matthey", "competitive-intel"].includes(i.slug),
+      ["johnson-matthey", "competitive-intel"].includes(i.slug),
   );
 }
 
@@ -253,4 +334,11 @@ export function inProgress(items: WorkItem[]) {
 
 export function frontendCards(items: WorkItem[]) {
   return items.filter((i) => i.category === "Frontend");
+}
+
+export function dataExtras(items: WorkItem[]) {
+  const heroSlugs = new Set(heroItems(items).map((h) => h.slug));
+  return items.filter(
+    (i) => i.category === "Data Engineering" && !heroSlugs.has(i.slug),
+  );
 }

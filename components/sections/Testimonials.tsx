@@ -1,25 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { testimonials } from "@/lib/testimonials";
 
+const AUTOPLAY_MS = 7000;
+
 export function Testimonials() {
   const [index, setIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const figureRef = useRef<HTMLElement>(null);
   const active = testimonials[index];
   const total = testimonials.length;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
     const onChange = () => setReducedMotion(mq.matches);
+    const id = window.setTimeout(onChange, 0);
     mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    return () => {
+      window.clearTimeout(id);
+      mq.removeEventListener("change", onChange);
+    };
   }, []);
+
+  useEffect(() => {
+    if (reducedMotion || paused) return;
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % total);
+    }, AUTOPLAY_MS);
+    return () => window.clearInterval(id);
+  }, [reducedMotion, paused, total]);
 
   const go = (next: number) => {
     setIndex(((next % total) + total) % total);
@@ -29,13 +44,24 @@ export function Testimonials() {
     <section className="border-b border-border-subtle/60 py-28 md:py-36">
       <Container>
         <div className="mb-14 space-y-6">
-          <SectionLabel number="05">In clients' words</SectionLabel>
+          <SectionLabel number="05">In clients&apos; words</SectionLabel>
           <h2 className="max-w-2xl font-display text-4xl font-semibold tracking-tight text-text md:text-5xl">
             The receipts.
           </h2>
         </div>
 
-        <figure className="relative">
+        <figure
+          ref={figureRef}
+          className="relative"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={(e) => {
+            if (!figureRef.current?.contains(e.relatedTarget as Node)) {
+              setPaused(false);
+            }
+          }}
+        >
           <div className="grid gap-10 md:grid-cols-[auto_1fr] md:gap-14">
             <div
               aria-hidden

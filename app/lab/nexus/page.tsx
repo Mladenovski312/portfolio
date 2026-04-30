@@ -30,7 +30,7 @@ export default function NexusLabPage() {
     <>
       <Nav />
 
-      <main className="pb-32">
+      <main className="pb-20">
         <section className="relative overflow-hidden border-b border-border-subtle/60 pt-16 md:pt-24">
           <div
             aria-hidden
@@ -39,9 +39,12 @@ export default function NexusLabPage() {
           <Container className="relative">
             <Link
               href="/lab"
-              className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-text-subtle transition-colors hover:text-text"
+              className="group mb-10 inline-flex items-center gap-2 rounded-lg border border-border bg-surface/60 px-4 py-2 text-[13px] font-medium text-text-muted transition-[border-color,background-color,color] duration-200 hover:border-accent-border hover:bg-surface hover:text-text"
             >
-              <ArrowLeft size={12} />
+              <ArrowLeft
+                size={14}
+                className="transition-transform duration-200 group-hover:-translate-x-0.5"
+              />
               Back to lab
             </Link>
 
@@ -54,7 +57,7 @@ export default function NexusLabPage() {
                 <span className="text-success">Live</span>
               </div>
 
-              <h1 className="max-w-4xl text-balance font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-text md:text-6xl lg:text-7xl">
+              <h1 className="max-w-4xl text-balance font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-text md:text-5xl lg:text-6xl">
                 NEXUS, a self-hosted AI agent rig.
               </h1>
 
@@ -72,7 +75,7 @@ export default function NexusLabPage() {
             <figure className="relative overflow-hidden rounded-2xl border border-border bg-surface-2">
               <div className="relative aspect-[16/9]">
                 <Image
-                  src="/media/Nexus_Agentpng.png"
+                  src="/media/nexus-agent.png"
                   alt="NEXUS rig: self-hosted AI agent server with live status overlay"
                   fill
                   priority
@@ -87,7 +90,7 @@ export default function NexusLabPage() {
 
             <dl className="mt-10 grid gap-6 border-t border-border-subtle py-8 md:grid-cols-3">
               <Fact label="Why">
-                Agent workloads don't belong on the workstation that holds client code.
+                Agent workloads don&apos;t belong on the workstation that holds client code.
               </Fact>
               <Fact label="Host">
                 Repurposed Asus ROG laptop, wiped and rebuilt from scratch.
@@ -127,7 +130,7 @@ export default function NexusLabPage() {
                   "Wiped the factory install. Fresh Linux Mint 22.3, Ubuntu Noble base. No desktop bloat, just the tools I need.",
                   "Docker and Docker Compose as the container layer, so every service is declarative and reproducible.",
                   "OpenClaw as the agent gateway, running an OAuth-bound OpenAI Codex session for the default model and a capped Anthropic fallback for API work.",
-                  "Spending ceiling set on the fallback provider. Agent can't burn a month of budget in an afternoon.",
+                  "Spending ceiling set on the fallback provider. Agent cannot burn a month of budget in an afternoon.",
                 ].map((it, i) => (
                   <li
                     key={i}
@@ -149,7 +152,7 @@ export default function NexusLabPage() {
                 Tailscale handles the WAN path. The box never exposes a port to the open internet. My devices join the same tailnet and talk to it over WireGuard, with SSH as the only control plane and a UFW firewall scoped to LAN plus Tailscale ranges.
               </p>
               <p className="text-[17px] leading-relaxed text-text-muted">
-                Phone access goes through a Telegram bot locked to a single chat ID. Anyone who finds the bot by accident gets silence. On the desktop or laptop it's SSH plus the OpenClaw web UI over Tailscale, nothing more.
+                Phone access goes through a Telegram bot locked to a single chat ID. Anyone who finds the bot by accident gets silence. On the desktop or laptop it&apos;s SSH plus the OpenClaw web UI over Tailscale, nothing more.
               </p>
 
               <div className="rounded-xl border border-border bg-surface p-6">
@@ -170,7 +173,7 @@ export default function NexusLabPage() {
               <ul className="space-y-3">
                 {[
                   "Drafting research, long-context reading, and code sketches while away from the desk.",
-                  "Long-running jobs that I don't want hogging the workstation: batch rewrites, content processing, scheduled scrapes.",
+                  "Long-running jobs I do not want hogging the workstation: batch rewrites, content processing, scheduled scrapes.",
                   "A sandbox for agent patterns before they go into client work. Every production agent I ship has been shaken out on this box first.",
                 ].map((it, i) => (
                   <li
@@ -187,13 +190,13 @@ export default function NexusLabPage() {
               </ul>
 
               <h2 className="font-display text-3xl font-semibold tracking-tight text-text">
-                What's next
+                What&apos;s next
               </h2>
               <p className="text-[17px] leading-relaxed text-text-muted">
                 A local model for offline fallback, a proper observability stack so I can see what the agent is doing without tailing logs, and scheduled jobs that run while I sleep. The rig is stable enough now that the next round of work is about making it more useful, not keeping it up.
               </p>
               <p className="text-[17px] leading-relaxed text-text-muted">
-                If you run agents in production and want to compare notes on runtime, isolation, or cost controls, I'm happy to trade them.
+                If you run agents in production and want to compare notes on runtime, isolation, or cost controls, I&apos;m happy to trade them.
               </p>
             </div>
           </Container>
@@ -202,7 +205,7 @@ export default function NexusLabPage() {
         <section className="border-t border-border-subtle/60 py-20">
           <Container>
             <SectionLabel number="→">More from the lab</SectionLabel>
-            <div className="mt-10 rounded-3xl border border-border bg-surface p-10 text-center md:p-16">
+            <div className="mt-10 rounded-2xl border border-border bg-surface p-7 text-center sm:p-10 md:p-16">
               <h2 className="mx-auto max-w-2xl font-display text-3xl font-semibold tracking-tight text-text md:text-5xl text-balance">
                 Want this kind of setup for your team?
               </h2>
@@ -210,7 +213,7 @@ export default function NexusLabPage() {
                 Self-hosted agents, isolated runtimes, and cost-aware AI infra are part of what I build for clients. Happy to scope one with you.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button href="/#contact" variant="primary" icon>
+                <Button href="/contact" variant="primary">
                   Book a call
                 </Button>
                 <Button href="/lab" variant="secondary">

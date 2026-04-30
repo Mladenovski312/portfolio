@@ -4,12 +4,27 @@ export type Block =
   | { kind: "bullets"; items: string[] }
   | { kind: "callout"; title: string; body: string }
   | { kind: "architecture"; items: { layer: string; tech: string[] }[] }
-  | { kind: "snippet"; code: string; language?: string; filename?: string };
+  | {
+      kind: "image";
+      src: string;
+      alt: string;
+      width: number;
+      height: number;
+      caption?: string;
+    };
+
+export type CaseStudyCover = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
 
 export type CaseStudy = {
   context: string;
   timeline: string;
   role: string;
+  cover?: CaseStudyCover;
   blocks: Block[];
 };
 
@@ -19,6 +34,12 @@ export const caseStudies: Record<string, CaseStudy> = {
       "InterStar Jumbo is a retail toy chain. Before this build, the business lived across spreadsheets, a manual cash register, and no online presence. They needed a single system.",
     timeline: "12 weeks, solo",
     role: "Design, architecture, full implementation, deployment",
+    cover: {
+      src: "/media/jumbo/cover.png",
+      alt: "Inventory dashboard for InterStar Jumbo with product cards, stock counts, and live revenue totals in MKD.",
+      width: 1885,
+      height: 807,
+    },
     blocks: [
       { kind: "h2", text: "What I built" },
       {
@@ -30,6 +51,14 @@ export const caseStudies: Record<string, CaseStudy> = {
           "An AI product scanner that identifies items from an uploaded photo using Google Gemini.",
           "A unified Supabase backend with Postgres, Auth, and Storage.",
         ],
+      },
+      {
+        kind: "image",
+        src: "/media/jumbo/ai-scan.png",
+        alt: "New-item form with a photo upload area for AI product recognition, plus name, category, description, cost, price, and quantity fields.",
+        width: 1877,
+        height: 800,
+        caption: "Adding a new article: photo-based recognition with manual fallback.",
       },
       { kind: "h2", text: "Architecture" },
       {
@@ -49,43 +78,6 @@ export const caseStudies: Record<string, CaseStudy> = {
           "Under concurrent purchases, naive stock decrement creates double-sells. All POS and storefront writes go through a Postgres function that locks, checks, decrements, and records in one transaction. No overselling, no drift.",
       },
       {
-        kind: "snippet",
-        language: "SQL",
-        filename: "supabase/functions/decrement_stock.sql",
-        code: `create or replace function decrement_stock(
-  p_product_id uuid,
-  p_quantity int,
-  p_order_id uuid
-) returns void
-language plpgsql
-security definer
-as $$
-declare
-  v_available int;
-begin
-  select quantity into v_available
-  from product_stock
-  where product_id = p_product_id
-  for update;
-
-  if v_available is null then
-    raise exception 'product_not_found';
-  end if;
-
-  if v_available < p_quantity then
-    raise exception 'insufficient_stock' using errcode = 'P0001';
-  end if;
-
-  update product_stock
-  set quantity = quantity - p_quantity
-  where product_id = p_product_id;
-
-  insert into stock_movements (product_id, order_id, delta, reason)
-  values (p_product_id, p_order_id, -p_quantity, 'sale');
-end;
-$$;`,
-      },
-      {
         kind: "callout",
         title: "Cyrillic ↔ Latin search transliteration",
         body:
@@ -98,47 +90,17 @@ $$;`,
           "Scan is a convenience, not a dependency. The cashier can always fall back to barcode or manual search. Gemini calls are rate-limited per user and the scan UX degrades gracefully if the model returns low confidence.",
       },
       {
-        kind: "snippet",
-        language: "TypeScript",
-        filename: "lib/ai/scan-product.ts",
-        code: `import { GoogleGenAI, Type } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
-
-export async function scanProduct(imageBase64: string) {
-  const res = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: [{
-      role: "user",
-      parts: [
-        { inlineData: { mimeType: "image/jpeg", data: imageBase64 } },
-        { text: "Identify this retail product. Return brand, name, size." },
-      ],
-    }],
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          brand: { type: Type.STRING },
-          name: { type: Type.STRING },
-          size: { type: Type.STRING },
-          confidence: { type: Type.NUMBER },
-        },
-        required: ["name", "confidence"],
-      },
-    },
-  });
-
-  const parsed = JSON.parse(res.text ?? "{}");
-  if (parsed.confidence < 0.6) return { match: null, raw: parsed };
-  return { match: parsed, raw: parsed };
-}`,
+        kind: "image",
+        src: "/media/jumbo/analytics.png",
+        alt: "Analytics screen with order count, processing/delivered/cancelled status cards, daily orders + revenue chart, and an order-status donut.",
+        width: 1873,
+        height: 861,
+        caption: "Operational analytics: orders, revenue, status mix, all from a single source of truth.",
       },
       { kind: "h2", text: "Result" },
       {
         kind: "p",
-        text: "Production at interstarjumbo.com. The admin runs the business from it daily, the POS clears a transaction under 300ms on the shop floor, and the catalog is managed entirely in-house without an agency retainer.",
+        text: "Shipped end to end as a team of one. The POS clears a transaction under 300ms on the shop floor, inventory and admin analytics run from a single source of truth, and the catalog is managed in-house without an agency retainer.",
       },
     ],
   },
@@ -182,33 +144,6 @@ export async function scanProduct(imageBase64: string) {
         title: "Cron over an orchestrator",
         body:
           "Airflow or Prefect would be overkill for one daily job. Cron plus structured logging keeps the stack small enough for a single engineer to own. If this ever grows to dozens of jobs, the swap is clean.",
-      },
-      {
-        kind: "snippet",
-        language: "Python",
-        filename: "ingest/pull_samples.py",
-        code: `import os
-import gspread
-import pandas as pd
-from google.oauth2.service_account import Credentials
-from tenacity import retry, stop_after_attempt, wait_exponential
-
-SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
-
-@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=2, max=60))
-def fetch_sheet(sheet_id: str, tab: str) -> list[dict]:
-    creds = Credentials.from_service_account_file(
-        "/opt/jm/credentials.json", scopes=SCOPES
-    )
-    client = gspread.authorize(creds)
-    ws = client.open_by_key(sheet_id).worksheet(tab)
-    return ws.get_all_records()
-
-if __name__ == "__main__":
-    rows = fetch_sheet(os.environ["SHEET_ID"], "Samples")
-    df = pd.DataFrame(rows)
-    df.to_parquet("/var/data/samples.parquet", index=False)
-    print(f"ingested {len(df):,} rows")`,
       },
       { kind: "h2", text: "Result" },
       {
@@ -254,37 +189,6 @@ if __name__ == "__main__":
           "The agent forces structured JSON output per competitor. That is what lets the Notion sync stay honest and queryable. Free-form text would have been easier to prompt and useless to consume.",
       },
       {
-        kind: "snippet",
-        language: "Python",
-        filename: "agents/research.py",
-        code: `import asyncio, json
-from google import genai
-from google.genai import types
-from tenacity import retry, stop_after_attempt, wait_exponential
-
-client = genai.Client(vertexai=True, project=PROJECT, location="us-central1")
-
-@retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=2, max=30))
-async def research_competitor(name: str, brief: str) -> dict:
-    res = await client.aio.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=f"Competitor: {name}\\nBrief: {brief}",
-        config=types.GenerateContentConfig(
-            tools=[types.Tool(google_search=types.GoogleSearch())],
-            response_mime_type="application/json",
-            response_schema=COMPETITOR_SCHEMA,
-        ),
-    )
-    return json.loads(res.text)
-
-async def run(names: list[str], brief: str) -> list[dict]:
-    results = await asyncio.gather(
-        *(research_competitor(n, brief) for n in names),
-        return_exceptions=True,
-    )
-    return [r for r in results if not isinstance(r, Exception)]`,
-      },
-      {
         kind: "callout",
         title: "Notion as the UI",
         body:
@@ -301,7 +205,7 @@ async def run(names: list[str], brief: str) -> list[dict]:
   pickaxe: {
     context:
       "PickAxe is a crypto mining operation. Their site had to convert visitors with live data, not just copy. Static numbers would have undermined the pitch.",
-    timeline: "$8k, 330 hours, ongoing maintenance",
+    timeline: "330 hours, ongoing maintenance",
     role: "Development, animations, data integration, maintenance",
     blocks: [
       { kind: "h2", text: "What I built" },
@@ -315,52 +219,22 @@ async def run(names: list[str], brief: str) -> list[dict]:
           "Ongoing maintenance engagements across new sections and partnership pages.",
         ],
       },
+      { kind: "h2", text: "Architecture" },
+      {
+        kind: "architecture",
+        items: [
+          { layer: "Site layer", tech: ["Webflow", "CMS", "Responsive breakpoints"] },
+          { layer: "Interaction", tech: ["JavaScript", "GSAP", "Input-driven UI"] },
+          { layer: "Data", tech: ["BTC price feed", "Network hashrate feed", "Calculator state"] },
+          { layer: "Ops", tech: ["Client-owned CMS", "Maintenance retainer"] },
+        ],
+      },
       { kind: "h2", text: "Interesting decisions" },
       {
         kind: "callout",
         title: "Vanilla JS for the calculator",
         body:
           "A framework here would have meant a bigger bundle and slower first paint on a content-heavy marketing page. Vanilla JS is small, fast, and easy to hand off.",
-      },
-      {
-        kind: "snippet",
-        language: "JavaScript",
-        filename: "js/mining-calculator.js",
-        code: `const SECONDS_PER_DAY = 86_400;
-const BLOCK_TIME = 600;
-const BLOCK_REWARD = 3.125;
-
-async function loadNetwork() {
-  const [hashRes, priceRes] = await Promise.all([
-    fetch("/api/network/hashrate"),
-    fetch("/api/price/btc"),
-  ]);
-  return {
-    networkHashrate: (await hashRes.json()).value,
-    btcUsd: (await priceRes.json()).usd,
-  };
-}
-
-function dailyProfit({ rigHashrate, powerKw, electricityRate }, net) {
-  const blocksPerDay = SECONDS_PER_DAY / BLOCK_TIME;
-  const share = rigHashrate / (net.networkHashrate * 1e6);
-  const btc = share * blocksPerDay * BLOCK_REWARD;
-  const revenue = btc * net.btcUsd;
-  const cost = powerKw * 24 * electricityRate;
-  return { btc, revenue, cost, net: revenue - cost };
-}
-
-loadNetwork().then((net) => {
-  document.querySelector("[data-calc]").addEventListener("input", (e) => {
-    const form = new FormData(e.currentTarget.closest("form"));
-    const out = dailyProfit({
-      rigHashrate: +form.get("hashrate"),
-      powerKw: +form.get("power"),
-      electricityRate: +form.get("rate"),
-    }, net);
-    render(out);
-  });
-});`,
       },
       {
         kind: "callout",
@@ -392,6 +266,16 @@ loadNetwork().then((net) => {
           "Testimonial rotations that carry weight without distracting from the product copy.",
         ],
       },
+      { kind: "h2", text: "Architecture" },
+      {
+        kind: "architecture",
+        items: [
+          { layer: "CMS", tech: ["Webflow CMS", "Lines-of-Business model", "Reusable templates"] },
+          { layer: "Frontend", tech: ["Client-First classes", "Custom JS", "Responsive QA"] },
+          { layer: "Motion", tech: ["Hand-written interactions", "Scroll reveals", "Reduced-motion fallback"] },
+          { layer: "Handoff", tech: ["Editor-safe content", "Team-owned updates"] },
+        ],
+      },
       { kind: "h2", text: "Interesting decisions" },
       {
         kind: "callout",
@@ -404,34 +288,6 @@ loadNetwork().then((net) => {
         title: "Hand-written animations",
         body:
           "Plugin-driven motion feels the same across every site that uses it. Hand-written interactions let the brand feel distinct without crossing into gimmick territory.",
-      },
-      {
-        kind: "snippet",
-        language: "JavaScript",
-        filename: "js/reveal.js",
-        code: `import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-document.querySelectorAll("[data-reveal]").forEach((el) => {
-  const delay = Number(el.dataset.revealDelay ?? 0);
-  gsap.from(el, {
-    y: 24,
-    opacity: 0,
-    duration: 0.8,
-    delay,
-    ease: "power3.out",
-    scrollTrigger: { trigger: el, start: "top 85%", once: true },
-  });
-});
-
-if (prefersReduced.matches) {
-  ScrollTrigger.getAll().forEach((t) => t.kill());
-  gsap.set("[data-reveal]", { clearProps: "all" });
-}`,
       },
       { kind: "h2", text: "Result" },
       {

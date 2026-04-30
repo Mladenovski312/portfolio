@@ -8,6 +8,8 @@ import { Capabilities } from "@/components/sections/Capabilities";
 import { Process } from "@/components/sections/Process";
 import { About } from "@/components/sections/About";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { ProjectFit } from "@/components/sections/ProjectFit";
+import { FAQ } from "@/components/sections/FAQ";
 import { CTA } from "@/components/sections/CTA";
 
 export default function Home() {
@@ -16,13 +18,15 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <ProofStrip />
         <Stats />
+        <ProofStrip />
         <Work />
         <Capabilities />
         <Process />
         <About />
         <Testimonials />
+        <ProjectFit />
+        <FAQ />
         <CTA />
       </main>
       <Footer />
