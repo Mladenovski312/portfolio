@@ -10,6 +10,8 @@ import { Container } from "@/components/ui/Container";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { site } from "@/lib/site";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -18,13 +20,34 @@ export function generateStaticParams() {
     .map((w) => ({ slug: w.slug }));
 }
 
-export async function generateMetadata(props: PageProps<"/work/[slug]">): Promise<Metadata> {
+export async function generateMetadata(
+  props: PageProps<"/work/[slug]">,
+): Promise<Metadata> {
   const { slug } = await props.params;
   const item = work.find((w) => w.slug === slug);
   if (!item) return {};
+  const title = `${item.name} · Case Study`;
+  const description = item.summary ?? item.outcome;
+  const path = `/work/${item.slug}`;
+  const ogImage = item.cover?.src ?? "/opengraph-image";
   return {
-    title: `${item.name} · Filip Mladenovski`,
-    description: item.outcome,
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: `${site.url}${path}`,
+      siteName: site.name,
+      images: [ogImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
@@ -44,6 +67,13 @@ export default async function CaseStudyPage(
 
   return (
     <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Work", path: "/#work" },
+          { name: item.name, path: `/work/${item.slug}` },
+        ]}
+      />
       <Nav />
 
       <main className="pb-20">

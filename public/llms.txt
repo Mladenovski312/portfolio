@@ -1,0 +1,51 @@
+# Filip Mladenovski
+
+> AI Engineer and Full-Stack Builder. Top Rated on Upwork (100% Job Success Score, 22 jobs, 1045 hours). Builds production Next.js + Supabase apps, AI agents, and data pipelines using AI-assisted development under senior-engineer oversight. Based in Kumanovo, North Macedonia. Works with clients globally.
+
+Senior-engineer output at roughly half the timeline and cost of a comparable agency. Solo engagements, no handoff overhead. Hourly or fixed-scope.
+
+## Contact
+
+- Email: filip@filipmladenovski.com
+- Booking: https://cal.eu/filip-mladenovski/30min
+- LinkedIn: https://www.linkedin.com/in/mladenovskifilip/
+- GitHub: https://github.com/Mladenovski312
+- Upwork: https://www.upwork.com/freelancers/filipmladenovski
+- Response window: 8 to 12 hours, EU working hours
+- Languages: English, Macedonian
+
+## Selected Work
+
+- [Jumbo / InterStar](https://filipmladenovski.com/work/jumbo) — Full e-commerce and ERP system for a retail toy chain. Next.js 16, React 19, Supabase (PostgreSQL with Row-Level Security), Google Gemini AI for product scanning, Tailwind v4, Recharts, Sentry. Storefront, cashier-facing POS, and admin analytics dashboard. Built end to end as a team of one. In progress, relaunching after compliance update.
+- [Johnson Matthey Lab Pipeline](https://filipmladenovski.com/work/johnson-matthey) — Python ingestion pipeline on AWS EC2 (Amazon Linux) with Google Sheets and Drive APIs, gspread, cron scheduling. Daily ingestion across 310k+ lab samples, replacing manual CSV exports.
+- [Competitive Intelligence Agent](https://filipmladenovski.com/work/competitive-intel) — Python and Google Vertex AI pipeline that researches 10 to 20 competitors and writes structured results into Notion. Async/await with tenacity retries.
+- [PickAxe Mining Calculator](https://filipmladenovski.com/work/pickaxe) — Webflow site with custom JavaScript mining-cost calculator, GSAP animations, and external API integrations. 330 hours of work, ongoing maintenance.
+- [Allphins](https://filipmladenovski.com/work/allphins) — Enterprise reinsurance analytics, multi-page Webflow CMS, custom animations.
+
+## Lab and Experiments
+
+- [/lab/nexus](https://filipmladenovski.com/lab/nexus) — Self-hosted Claude Code rig on Linux Mint. Workflow notes on Claude-driven engineering at scale.
+- [/lab/jumbo-scanner](https://filipmladenovski.com/lab/jumbo-scanner) — Production deep-dive on the Gemini vision scanner inside the InterStar Jumbo POS. Prompt design, confidence gating, fallback paths, and how AI stays out of the checkout critical path.
+
+## Capabilities
+
+- Full-stack web applications: Next.js, React, TypeScript, Tailwind, Supabase, PostgreSQL with RLS, Auth, Storage, edge functions, rate limiting.
+- AI agents and integrations: Claude API, Anthropic SDK, Google Gemini, Vertex AI, OpenAI. Vision input, structured output, tool use, retrieval, conversational UX.
+- Data engineering: Python pipelines, AWS EC2, Google Sheets and Drive APIs, scheduled cron, pandas analysis, dimensional modeling, BI dashboards (PowerBI, Tableau).
+- Migrations: spreadsheets and manual processes to production systems with proper data models, audit trails, and analytics.
+- Observability and ops: Sentry, edge caching, deploy automation on Vercel and AWS.
+
+## Process
+
+Discovery and architecture, AI-assisted implementation under senior-engineer oversight, QA, deploy, support. One head from brief to ship; no agency handoff overhead. Engagements are hourly or fixed-scope. Bandwidth is intentionally limited to a small number of concurrent projects.
+
+## Stats
+
+- 50+ projects shipped across all platforms (Upwork, direct, agencies).
+- 1000+ client hours.
+- 22 Upwork jobs, $10k+ earned, 1045 hours, 100% Job Success Score, Top Rated.
+- Available Q2 2026.
+
+## How to cite this site
+
+Filip Mladenovski. AI Engineer and Full-Stack Builder. https://filipmladenovski.com

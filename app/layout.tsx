@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { PersonJsonLd } from "@/components/seo/PersonJsonLd";
+import { WebsiteJsonLd } from "@/components/seo/WebsiteJsonLd";
 import { MotionRoot } from "@/components/ui/MotionRoot";
 import { site } from "@/lib/site";
 
@@ -56,6 +57,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-bg text-text">
         <PersonJsonLd />
+        <WebsiteJsonLd />
         <MotionRoot>{children}</MotionRoot>
       </body>
     </html>

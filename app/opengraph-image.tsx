@@ -1,12 +1,19 @@
 import { ImageResponse } from "next/og";
+import { readFileSync } from "fs";
+import { join } from "path";
 import { site } from "@/lib/site";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const alt = `${site.name} · AI Engineer & Full-Stack Builder`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function OpengraphImage() {
+  const logo = readFileSync(
+    join(process.cwd(), "public/brand/logo.png"),
+  ).toString("base64");
+  const logoSrc = `data:image/png;base64,${logo}`;
+
   return new ImageResponse(
     (
       <div
@@ -27,23 +34,38 @@ export default function OpengraphImage() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 12,
-            fontSize: 22,
-            letterSpacing: 4,
-            textTransform: "uppercase",
-            color: "#5EEAD4",
+            justifyContent: "space-between",
           }}
         >
-          <span
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: 9999,
-              background: "#5EEAD4",
-              display: "block",
-            }}
+          <img
+            src={logoSrc}
+            width={64}
+            height={64}
+            alt=""
+            style={{ display: "block" }}
           />
-          <span>Available · Q2 2026</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              fontSize: 22,
+              letterSpacing: 4,
+              textTransform: "uppercase",
+              color: "#5EEAD4",
+            }}
+          >
+            <span
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 9999,
+                background: "#5EEAD4",
+                display: "block",
+              }}
+            />
+            <span>Available · Q2 2026</span>
+          </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
