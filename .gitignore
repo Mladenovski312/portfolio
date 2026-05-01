@@ -42,6 +42,7 @@ next-env.d.ts
 
 # lighthouse reports (regenerable)
 .lighthouse-*.json
+.lighthouse/
 .audit/
 
 # claude code local state

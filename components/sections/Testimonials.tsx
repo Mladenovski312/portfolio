@@ -65,7 +65,7 @@ export function Testimonials() {
           <div className="grid gap-10 md:grid-cols-[auto_1fr] md:gap-14">
             <div
               aria-hidden
-              className="font-display text-[96px] font-semibold leading-none tracking-tight text-text-subtle/20 md:text-[160px]"
+              className="font-display text-[96px] font-semibold leading-none tracking-tight text-text-subtle/55 md:text-[160px]"
             >
               {String(index + 1).padStart(2, "0")}
             </div>

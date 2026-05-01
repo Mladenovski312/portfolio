@@ -16,16 +16,16 @@ Senior-engineer output at roughly half the timeline and cost of a comparable age
 
 ## Selected Work
 
-- [Jumbo / InterStar](https://filipmladenovski.com/work/jumbo) — Full e-commerce and ERP system for a retail toy chain. Next.js 16, React 19, Supabase (PostgreSQL with Row-Level Security), Google Gemini AI for product scanning, Tailwind v4, Recharts, Sentry. Storefront, cashier-facing POS, and admin analytics dashboard. Built end to end as a team of one. In progress, relaunching after compliance update.
-- [Johnson Matthey Lab Pipeline](https://filipmladenovski.com/work/johnson-matthey) — Python ingestion pipeline on AWS EC2 (Amazon Linux) with Google Sheets and Drive APIs, gspread, cron scheduling. Daily ingestion across 310k+ lab samples, replacing manual CSV exports.
-- [Competitive Intelligence Agent](https://filipmladenovski.com/work/competitive-intel) — Python and Google Vertex AI pipeline that researches 10 to 20 competitors and writes structured results into Notion. Async/await with tenacity retries.
-- [PickAxe Mining Calculator](https://filipmladenovski.com/work/pickaxe) — Webflow site with custom JavaScript mining-cost calculator, GSAP animations, and external API integrations. 330 hours of work, ongoing maintenance.
-- [Allphins](https://filipmladenovski.com/work/allphins) — Enterprise reinsurance analytics, multi-page Webflow CMS, custom animations.
+- [Jumbo / InterStar](https://filipmladenovski.com/work/jumbo): Full e-commerce and ERP system for a retail toy chain. Next.js 16, React 19, Supabase (PostgreSQL with Row-Level Security), Google Gemini AI for product scanning, Tailwind v4, Recharts, Sentry. Storefront, cashier-facing POS, and admin analytics dashboard. Built end to end as a team of one. In progress, relaunching after compliance update.
+- [Johnson Matthey Lab Pipeline](https://filipmladenovski.com/work/johnson-matthey): Python ingestion pipeline on AWS EC2 (Amazon Linux) with Google Sheets and Drive APIs, gspread, cron scheduling. Daily ingestion across 310k+ lab samples, replacing manual CSV exports.
+- [Competitive Intelligence Agent](https://filipmladenovski.com/work/competitive-intel): Python and Google Vertex AI pipeline that researches 10 to 20 competitors and writes structured results into Notion. Async/await with tenacity retries.
+- [PickAxe Mining Calculator](https://filipmladenovski.com/work/pickaxe): Webflow site with custom JavaScript mining-cost calculator, GSAP animations, and external API integrations. 330 hours of work, ongoing maintenance.
+- [Allphins](https://filipmladenovski.com/work/allphins): Enterprise reinsurance analytics, multi-page Webflow CMS, custom animations.
 
 ## Lab and Experiments
 
-- [/lab/nexus](https://filipmladenovski.com/lab/nexus) — Self-hosted Claude Code rig on Linux Mint. Workflow notes on Claude-driven engineering at scale.
-- [/lab/jumbo-scanner](https://filipmladenovski.com/lab/jumbo-scanner) — Production deep-dive on the Gemini vision scanner inside the InterStar Jumbo POS. Prompt design, confidence gating, fallback paths, and how AI stays out of the checkout critical path.
+- [/lab/nexus](https://filipmladenovski.com/lab/nexus): Self-hosted Claude Code rig on Linux Mint. Workflow notes on Claude-driven engineering at scale.
+- [/lab/jumbo-scanner](https://filipmladenovski.com/lab/jumbo-scanner): Production deep-dive on the Gemini vision scanner inside the InterStar Jumbo POS. Prompt design, confidence gating, fallback paths, and how AI stays out of the checkout critical path.
 
 ## Capabilities
 

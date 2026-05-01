@@ -1,13 +1,13 @@
-"use client";
+import type { CSSProperties } from "react";
 
-import { motion } from "motion/react";
+type Tag = "div" | "p" | "span" | "ul" | "li" | "h1" | "h2" | "h3";
 
 type Props = {
   children: React.ReactNode;
   delay?: number;
   y?: number;
   className?: string;
-  as?: "div" | "p" | "span" | "ul" | "li";
+  as?: Tag;
 };
 
 export function FadeIn({
@@ -17,15 +17,14 @@ export function FadeIn({
   className,
   as: Tag = "div",
 }: Props) {
-  const MotionTag = motion[Tag];
+  const style = {
+    "--fade-y": `${y}px`,
+    animationDelay: `${delay * 1000}ms`,
+  } as CSSProperties;
+
   return (
-    <MotionTag
-      initial={{ opacity: 0, y }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay }}
-      className={className}
-    >
+    <Tag className={`fade-up-anim ${className ?? ""}`} style={style}>
       {children}
-    </MotionTag>
+    </Tag>
   );
 }

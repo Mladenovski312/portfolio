@@ -1,7 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { TerminalHero } from "@/components/interactions/TerminalHero";
-import { WordsReveal } from "@/components/motion/WordsReveal";
 import { FadeIn } from "@/components/motion/FadeIn";
 
 export function Hero() {
@@ -29,19 +28,18 @@ export function Hero() {
               <span>Kumanovo · Remote</span>
             </FadeIn>
 
-            <WordsReveal
+            <FadeIn
               as="h1"
+              delay={0.12}
               className="text-balance font-display text-[36px] font-semibold leading-[1.05] tracking-[-0.025em] text-text sm:text-[44px] md:text-[52px] lg:text-[60px]"
-              delay={0.15}
-              stagger={0.05}
             >
               Ship AI-powered web apps and automation in{" "}
               <span className="text-accent">weeks</span>, not months.
-            </WordsReveal>
+            </FadeIn>
 
             <FadeIn
               as="p"
-              delay={0.7}
+              delay={0.38}
               className="max-w-xl text-pretty text-[17px] leading-relaxed text-text-muted md:text-lg"
             >
               Full-stack products, AI agents, and data pipelines, shipped solo.
@@ -49,7 +47,7 @@ export function Hero() {
               Senior-engineer output in roughly half the time and cost of an agency.
             </FadeIn>
 
-            <FadeIn delay={0.9} className="flex flex-wrap items-center gap-4 pt-2">
+            <FadeIn delay={0.54} className="flex flex-wrap items-center gap-4 pt-2">
               <Button href="/contact" variant="primary" icon>
                 Book a call
               </Button>

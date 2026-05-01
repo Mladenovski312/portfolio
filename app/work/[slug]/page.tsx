@@ -11,6 +11,7 @@ import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { CaseStudyJsonLd } from "@/components/seo/CaseStudyJsonLd";
 import { site } from "@/lib/site";
 import type { Metadata } from "next";
 
@@ -74,6 +75,7 @@ export default async function CaseStudyPage(
           { name: item.name, path: `/work/${item.slug}` },
         ]}
       />
+      <CaseStudyJsonLd item={item} />
       <Nav />
 
       <main className="pb-20">
