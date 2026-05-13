@@ -36,7 +36,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Filip has quickly become my go-to website guy. Extremely responsive, flexible, honest, and transparent. He even found he'd under-estimated the job, but instead of asking for more money he honored his original quote. That kind of honesty is something I RARELY see from freelancers these days.",
+      "Filip has become my go-to website guy. He even found he'd under-estimated the job, but honored his original quote instead of asking for more. That kind of honesty I RARELY see from freelancers.",
     author: "Evan W.",
     role: "Austin Pallet Removal",
     source: "Upwork",
